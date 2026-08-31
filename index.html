@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisis Sentimen Mobile JKN — Portal Riset</title>
+<meta name="description" content="Portal riset analisis sentimen ulasan pengguna Mobile JKN. Unduh dataset terbaru atau buka dashboard prediksi sentimen berbasis Naive Bayes Classifier.">
+<meta property="og:title" content="Analisis Sentimen Ulasan Pengguna Mobile JKN">
+<meta property="og:description" content="Unduh dataset ulasan terbaru dan buka dashboard analisis sentimen Mobile JKN.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="%2309A750"/><path d="M8 21h5l3-8 4 14 3-9h9" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:wght@600;700&display=swap');
+
+  :root{
+    --green:#09A750;
+    --green-dark:#007A3B;
+    --green-light:#E6F5EE;
+    --green-tint:#F2F9F6;
+    --blue:#232E7A;
+    --blue-dark:#171D57;
+    --ink:#1C2321;
+    --muted:#5B6B64;
+    --border:#DCE6E0;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    color:var(--ink);
+    background:linear-gradient(180deg, var(--green-tint) 0%, #ffffff 440px);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  .page{max-width:880px;margin:0 auto;padding:32px 24px 56px;}
+
+  /* Top bar */
+  .top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-bottom:20px;border-bottom:2px solid var(--green);
+    margin-bottom:44px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-text{font-weight:800;font-size:1.02rem;letter-spacing:-0.01em;line-height:1.25;}
+  .brand-text small{display:block;font-weight:500;font-size:0.72rem;color:var(--muted);letter-spacing:0.01em;}
+  .tag{
+    font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--blue);border:1px solid var(--blue);border-radius:999px;
+    padding:6px 14px;white-space:nowrap;
+  }
+
+  /* Hero */
+  .hero{margin-bottom:44px;}
+  .hero-eyebrow{
+    font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--green);margin:0 0 14px;
+  }
+  .hero h1{
+    font-family:'Lora', serif;font-weight:700;font-size:2.05rem;line-height:1.28;
+    margin:0 0 16px;color:var(--ink);max-width:620px;letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    font-size:1rem;line-height:1.7;color:var(--muted);max-width:600px;margin:0 0 26px;
+  }
+  .byline{font-size:0.88rem;line-height:1.65;}
+  .byline .name{font-weight:700;color:var(--ink);display:block;}
+  .byline .meta{color:var(--muted);display:block;}
+
+  /* Action cards */
+  .actions{display:flex;gap:16px;margin-bottom:52px;}
+  .action-card{
+    flex:1;display:flex;align-items:flex-start;gap:14px;
+    padding:24px 22px;border-radius:14px;text-decoration:none;color:#fff;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 1px 2px rgba(0,67,42,0.08), 0 1px 16px rgba(0,67,42,0.06);
+  }
+  .action-card:hover{transform:translateY(-3px);box-shadow:0 6px 10px rgba(0,67,42,.14), 0 10px 26px rgba(0,67,42,.10);}
+  .action-card:focus-visible{outline:3px solid var(--ink);outline-offset:3px;}
+  .action-blue{background:var(--blue);}
+  .action-blue:hover{background:var(--blue-dark);}
+  .action-green{background:var(--green-dark);}
+  .action-green:hover{background:#045C2C;}
+
+  .action-icon{
+    flex-shrink:0;width:42px;height:42px;border-radius:10px;
+    background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;
+  }
+  .action-text{flex:1;}
+  .action-text h2{font-size:1.08rem;font-weight:700;margin:0 0 4px;}
+  .action-text p{font-size:0.86rem;line-height:1.55;margin:0 0 10px;color:rgba(255,255,255,0.85);}
+  .action-source{font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.7);}
+  .action-arrow{align-self:center;font-size:1.3rem;opacity:0.75;margin-left:4px;}
+
+  /* Metrics */
+  .section-eyebrow{
+    display:flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:700;
+    letter-spacing:0.05em;text-transform:uppercase;color:var(--green);margin-bottom:6px;
+  }
+  .section-eyebrow::before{content:"";width:4px;height:14px;background:var(--green);border-radius:2px;display:inline-block;}
+  .section-caption{font-size:0.86rem;color:var(--muted);margin:0 0 18px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+
+  .metrics{margin-bottom:48px;}
+  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .metric-card{
+    border:1px solid var(--border);border-radius:12px;background:#fff;
+    padding:18px 16px;box-shadow:0 1px 2px rgba(0,67,42,0.04), 0 1px 12px rgba(0,67,42,0.03);
+  }
+  .metric-label{font-size:0.76rem;font-weight:600;color:var(--muted);margin-bottom:6px;}
+  .metric-value{font-size:1.7rem;font-weight:800;color:var(--green);}
+
+  footer{border-top:1px solid var(--border);padding-top:20px;font-size:0.8rem;color:var(--muted);line-height:1.75;}
+  footer .inst{color:var(--ink);font-weight:600;}
+
+  @media (max-width:640px){
+    .actions{flex-direction:column;}
+    .metric-grid{grid-template-columns:repeat(2,1fr);}
+    .hero h1{font-size:1.6rem;}
+    .top{flex-direction:column;align-items:flex-start;gap:14px;}
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="top">
+      <div class="brand">
+        <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+          <rect width="40" height="40" rx="10" fill="#09A750"/>
+          <path d="M8 21h5l3-8 4 14 3-9h9" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="brand-text">
+          Mobile JKN
+          <small>Portal Riset Analisis Sentimen</small>
+        </div>
+      </div>
+      <span class="tag">Riset Akademik</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="hero-eyebrow">Naive Bayes Classifier · Hybrid Labeling</p>
+        <h1>Analisis Sentimen Ulasan Pengguna Mobile JKN</h1>
+        <p class="hero-sub">
+          Ulasan aplikasi Mobile JKN (BPJS Kesehatan) di Google Play Store periode Januari 2025 sampai Januari 2026,
+          diklasifikasikan menggunakan Naive Bayes Classifier dengan pendekatan Hybrid Labeling dan TF-IDF Bigram.
+        </p>
+        <div class="byline">
+          <span class="name">Muhammad Ravael Chessario Ramdoni</span>
+          <span class="meta">NIM 2259201010</span>
+          <span class="meta">Program Studi Teknologi Informasi, Institut Teknologi dan Bisnis Ahmad Dahlan Jakarta</span>
+        </div>
+      </section>
+
+      <section class="actions">
+        <a class="action-card action-blue" href="https://drive.google.com/drive/folders/1rBS86cZ-c-duangmr3QYNosg9e2aNGP2?usp=sharing" target="_blank" rel="noopener noreferrer">
+          <div class="action-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+              <path d="M12 4v11"/>
+              <path d="M7 10l5 5 5-5"/>
+            </svg>
+          </div>
+          <div class="action-text">
+            <h2>Unduh Dataset Terbaru</h2>
+            <p>Kumpulan data ulasan terbaru dalam format xlsx, tersimpan di Google Drive.</p>
+            <span class="action-source">Google Drive</span>
+          </div>
+        </a>
+
+        <a class="action-card action-green" href="https://dashboard-mobilejkn.streamlit.app/" target="_blank" rel="noopener noreferrer">
+          <div class="action-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 20V10"/>
+              <path d="M11 20V4"/>
+              <path d="M18 20v-7"/>
+            </svg>
+          </div>
+          <div class="action-text">
+            <h2>Buka Dashboard Analisis</h2>
+            <p>Jelajahi visualisasi data dan coba prediksi sentimen ulasan Anda sendiri.</p>
+            <span class="action-source">Streamlit App</span>
+          </div>
+        </a>
+      </section>
+
+      <section class="metrics">
+        <p class="section-eyebrow">Performa Model</p>
+        <p class="section-caption">Hasil evaluasi MultinomialNB pada data testing (11.996 ulasan).</p>
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">Akurasi</div>
+            <div class="metric-value">94,38%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Presisi</div>
+            <div class="metric-value">91,15%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Recall</div>
+            <div class="metric-value">98,89%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">F1-Score</div>
+            <div class="metric-value">94,86%</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p><span class="inst">Program Studi Teknologi Informasi</span> — Institut Teknologi dan Bisnis Ahmad Dahlan Jakarta</p>
+      <p>Dosen Pembimbing: Diana Yusuf, S.Kom., M.Kom. dan Fahrul Razi, S.Kom., M.Kom.</p>
+    </footer>
+
+  </div>
+</body>
+</html>
