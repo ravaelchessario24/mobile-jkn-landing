@@ -1,5 +1,6 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,11 @@
 <title>Mobile JKN Sentiment Analysis — Data Science Project</title>
 
 <meta name="description"
-      content="A Natural Language Processing project analyzing 59,980 Mobile JKN user reviews using TF-IDF Bigram and Multinomial Naive Bayes.">
+      content="Project Natural Language Processing untuk menganalisis 59.980 ulasan pengguna Mobile JKN menggunakan TF-IDF Bigram dan Multinomial Naive Bayes.">
 
 <meta property="og:title" content="Mobile JKN Sentiment Analysis">
 <meta property="og:description"
-      content="NLP & Machine Learning case study analyzing Mobile JKN user reviews.">
+      content="NLP & Machine Learning project analyzing Mobile JKN user reviews.">
 <meta property="og:type" content="website">
 
 <link rel="icon" type="image/svg+xml"
@@ -46,7 +47,7 @@ stroke-linejoin="round"/>
   --background:#F8FAF9;
 
   --shadow:
-    0 8px 30px rgba(20, 40, 30, 0.05);
+    0 8px 30px rgba(20,40,30,.05);
 }
 
 *{
@@ -59,6 +60,7 @@ html{
 
 body{
   margin:0;
+
   background:
     radial-gradient(circle at 70% 0%, rgba(9,167,80,.08), transparent 28%),
     linear-gradient(180deg,#F8FBF9 0%,#FFFFFF 420px);
@@ -129,6 +131,14 @@ nav{
   color:var(--muted);
 }
 
+/* RIGHT NAV */
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
 .nav-badge{
   padding:7px 13px;
 
@@ -144,6 +154,54 @@ nav{
 
   letter-spacing:.04em;
   text-transform:uppercase;
+}
+
+/* LANGUAGE SWITCHER */
+
+.language-switch{
+  display:flex;
+  align-items:center;
+
+  padding:3px;
+
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:999px;
+
+  box-shadow:0 2px 8px rgba(20,40,30,.04);
+}
+
+.lang-btn{
+  border:0;
+  background:transparent;
+
+  padding:7px 11px;
+
+  border-radius:999px;
+
+  font-family:inherit;
+
+  font-size:.7rem;
+  font-weight:700;
+
+  color:var(--muted);
+
+  cursor:pointer;
+
+  transition:
+    background .15s ease,
+    color .15s ease;
+}
+
+.lang-btn.active{
+  background:var(--green);
+  color:white;
+}
+
+.lang-btn:hover:not(.active){
+  background:#F2F5F3;
 }
 
 
@@ -663,13 +721,39 @@ footer{
 
       <div class="logo-text">
         Mobile JKN
-        <span>Sentiment Analysis Project</span>
+        <span data-id="logoSubtitle">Project Analisis Sentimen</span>
+        <span data-en="Sentiment Analysis Project" style="display:none"></span>
       </div>
 
     </div>
 
-    <div class="nav-badge">
-      Data Science · NLP
+
+    <div class="nav-right">
+
+      <div class="nav-badge">
+        <span data-id="navBadge">Data Science · NLP</span>
+        <span data-en="Data Science · NLP" style="display:none"></span>
+      </div>
+
+
+      <div class="language-switch">
+
+        <button
+          class="lang-btn active"
+          data-lang="id"
+          onclick="setLanguage('id')">
+          ID
+        </button>
+
+        <button
+          class="lang-btn"
+          data-lang="en"
+          onclick="setLanguage('en')">
+          EN
+        </button>
+
+      </div>
+
     </div>
 
   </div>
@@ -684,22 +768,58 @@ footer{
 <section class="hero">
 
   <div class="hero-label">
-    NLP & Machine Learning Project
+
+    <span data-id="heroLabel">
+      Project Data Science & NLP
+    </span>
+
+    <span data-en="Data Science & NLP Project"
+          style="display:none">
+    </span>
+
   </div>
 
+
   <h1>
-    Understanding
+
+    <span data-id="heroTitleBefore">
+      Memahami
+    </span>
+
+    <span data-en="Understanding"
+          style="display:none">
+    </span>
+
     <span>Mobile JKN</span>
-    Through User Feedback.
+
+    <span data-id="heroTitleAfter">
+      Melalui Umpan Balik Pengguna.
+    </span>
+
+    <span data-en="Through User Feedback."
+          style="display:none">
+    </span>
+
   </h1>
+
 
   <p class="hero-description">
 
-    An end-to-end sentiment analysis project built to explore
+    <span data-id="heroDescription">
+      Project analisis sentimen end-to-end yang mengeksplorasi
+      pengalaman pengguna aplikasi Mobile JKN melalui ulasan
+      Google Play Store menggunakan Natural Language Processing
+      dan Machine Learning.
+    </span>
+
+    <span data-en="An end-to-end sentiment analysis project exploring
     user experiences from Mobile JKN reviews on the Google Play Store
-    using Natural Language Processing and Machine Learning.
+    using Natural Language Processing and Machine Learning."
+          style="display:none">
+    </span>
 
   </p>
+
 
   <div class="hero-actions">
 
@@ -707,10 +827,15 @@ footer{
       class="button button-primary"
       href="https://dashboard-mobilejkn.streamlit.app/"
       target="_blank"
-      rel="noopener noreferrer"
-    >
+      rel="noopener noreferrer">
 
-      Explore Dashboard
+      <span data-id="dashboardBtn">
+        Jelajahi Dashboard
+      </span>
+
+      <span data-en="Explore Dashboard"
+            style="display:none">
+      </span>
 
       <span>↗</span>
 
@@ -721,10 +846,15 @@ footer{
       class="button button-secondary"
       href="https://drive.google.com/drive/folders/1rBS86cZ-c-duangmr3QYNosg9e2aNGP2?usp=sharing"
       target="_blank"
-      rel="noopener noreferrer"
-    >
+      rel="noopener noreferrer">
 
-      Dataset
+      <span data-id="datasetBtn">
+        Dataset
+      </span>
+
+      <span data-en="Dataset"
+            style="display:none">
+      </span>
 
       <span>↓</span>
 
@@ -741,6 +871,7 @@ footer{
 
 <section class="stats">
 
+
   <div class="stat">
 
     <div class="stat-value">
@@ -748,7 +879,15 @@ footer{
     </div>
 
     <div class="stat-label">
-      User reviews analyzed
+
+      <span data-id="stat1">
+        Ulasan pengguna dianalisis
+      </span>
+
+      <span data-en="User reviews analyzed"
+            style="display:none">
+      </span>
+
     </div>
 
   </div>
@@ -761,7 +900,15 @@ footer{
     </div>
 
     <div class="stat-label">
-      Review collection period
+
+      <span data-id="stat2">
+        Periode pengumpulan ulasan
+      </span>
+
+      <span data-en="Review collection period"
+            style="display:none">
+      </span>
+
     </div>
 
   </div>
@@ -774,7 +921,15 @@ footer{
     </div>
 
     <div class="stat-label">
-      Model accuracy
+
+      <span data-id="stat3">
+        Akurasi model
+      </span>
+
+      <span data-en="Model accuracy"
+            style="display:none">
+      </span>
+
     </div>
 
   </div>
@@ -787,10 +942,19 @@ footer{
     </div>
 
     <div class="stat-label">
-      TF-IDF bigram features
+
+      <span data-id="stat4">
+        Fitur TF-IDF bigram
+      </span>
+
+      <span data-en="TF-IDF bigram features"
+            style="display:none">
+      </span>
+
     </div>
 
   </div>
+
 
 </section>
 
@@ -804,11 +968,28 @@ footer{
   <div class="section-header">
 
     <div class="section-label">
-      Project Overview
+
+      <span data-id="overviewLabel">
+        Gambaran Project
+      </span>
+
+      <span data-en="Project Overview"
+            style="display:none">
+      </span>
+
     </div>
 
+
     <h2 class="section-title">
-      From raw reviews to sentiment insights.
+
+      <span data-id="overviewTitle">
+        Dari ulasan mentah menjadi insight sentimen.
+      </span>
+
+      <span data-en="From raw reviews to sentiment insights."
+            style="display:none">
+      </span>
+
     </h2>
 
   </div>
@@ -816,20 +997,39 @@ footer{
 
   <div class="overview">
 
+
     <div class="card">
 
       <h3>
-        The Project
+
+        <span data-id="projectTitle">
+          Tentang Project
+        </span>
+
+        <span data-en="The Project"
+              style="display:none">
+        </span>
+
       </h3>
+
 
       <p>
 
-        This project analyzes user reviews of the Mobile JKN
-        application collected from the Google Play Store.
-        The workflow covers data collection, text preprocessing,
-        sentiment labeling, TF-IDF feature extraction,
-        machine learning classification, and interactive
-        visualization.
+        <span data-id="projectDescription">
+          Project ini menganalisis ulasan pengguna aplikasi Mobile JKN
+          yang dikumpulkan dari Google Play Store. Alur pengolahan
+          mencakup pengumpulan data, text preprocessing, pelabelan
+          sentimen, ekstraksi fitur TF-IDF, klasifikasi machine learning,
+          evaluasi model, dan visualisasi interaktif.
+        </span>
+
+        <span data-en="This project analyzes user reviews of the Mobile JKN
+        application collected from the Google Play Store. The workflow
+        covers data collection, text preprocessing, sentiment labeling,
+        TF-IDF feature extraction, machine learning classification,
+        model evaluation, and interactive visualization."
+              style="display:none">
+        </span>
 
       </p>
 
@@ -839,12 +1039,32 @@ footer{
     <div class="card">
 
       <h3>
-        Technology Stack
+
+        <span data-id="techTitle">
+          Teknologi
+        </span>
+
+        <span data-en="Technology Stack"
+              style="display:none">
+        </span>
+
       </h3>
 
+
       <p>
-        Built with a Python-based NLP and machine learning workflow.
+
+        <span data-id="techDescription">
+          Dibangun menggunakan workflow NLP dan machine learning
+          berbasis Python.
+        </span>
+
+        <span data-en="Built with a Python-based NLP and machine
+        learning workflow."
+              style="display:none">
+        </span>
+
       </p>
+
 
       <div class="stack">
 
@@ -873,17 +1093,35 @@ footer{
   <div class="section-header">
 
     <div class="section-label">
-      Model Performance
+
+      <span data-id="performanceLabel">
+        Performa Model
+      </span>
+
+      <span data-en="Model Performance"
+            style="display:none">
+      </span>
+
     </div>
 
+
     <h2 class="section-title">
-      Classification results.
+
+      <span data-id="performanceTitle">
+        Hasil klasifikasi.
+      </span>
+
+      <span data-en="Classification results."
+            style="display:none">
+      </span>
+
     </h2>
 
   </div>
 
 
   <div class="performance">
+
 
     <div class="metric">
 
@@ -952,14 +1190,31 @@ footer{
     <div>
 
       <h2>
-        Explore the analysis.
+
+        <span data-id="ctaTitle">
+          Jelajahi hasil analisis.
+        </span>
+
+        <span data-en="Explore the analysis."
+              style="display:none">
+        </span>
+
       </h2>
+
 
       <p>
 
-        Interact with the dashboard to explore sentiment
-        distribution, dominant words, model evaluation,
-        and real-time sentiment prediction.
+        <span data-id="ctaDescription">
+          Gunakan dashboard untuk mengeksplorasi distribusi sentimen,
+          kata dominan, evaluasi model, dan melakukan prediksi sentimen
+          terhadap ulasan secara interaktif.
+        </span>
+
+        <span data-en="Interact with the dashboard to explore sentiment
+        distribution, dominant words, model evaluation, and real-time
+        sentiment prediction."
+              style="display:none">
+        </span>
 
       </p>
 
@@ -970,10 +1225,17 @@ footer{
       class="button"
       href="https://dashboard-mobilejkn.streamlit.app/"
       target="_blank"
-      rel="noopener noreferrer"
-    >
+      rel="noopener noreferrer">
 
-      Open Dashboard ↗
+      <span data-id="openDashboard">
+        Buka Dashboard
+      </span>
+
+      <span data-en="Open Dashboard"
+            style="display:none">
+      </span>
+
+      ↗
 
     </a>
 
@@ -993,24 +1255,126 @@ footer{
     <div>
 
       <div class="footer-title">
+
         Mobile JKN Sentiment Analysis
+
       </div>
 
       <div>
-        NLP & Machine Learning Case Study
+
+        <span data-id="footerSubtitle">
+          Project Data Science & NLP
+        </span>
+
+        <span data-en="Data Science & NLP Case Study"
+              style="display:none">
+        </span>
+
       </div>
 
     </div>
 
+
     <div>
-      Built with Python · Scikit-learn · Streamlit
+
+      Python · Scikit-learn · Streamlit
+
     </div>
 
   </div>
 
 </footer>
 
+
 </div>
+
+
+<script>
+
+function setLanguage(lang){
+
+  document.documentElement.lang = lang;
+
+  /*
+   * Toggle all Indonesian / English elements
+   */
+
+  document.querySelectorAll('[data-id]').forEach(el => {
+
+    el.style.display =
+      lang === 'id'
+        ? ''
+        : 'none';
+
+  });
+
+
+  document.querySelectorAll('[data-en]').forEach(el => {
+
+    el.style.display =
+      lang === 'en'
+        ? ''
+        : 'none';
+
+  });
+
+
+  /*
+   * Update language button state
+   */
+
+  document.querySelectorAll('.lang-btn')
+    .forEach(btn => {
+
+      btn.classList.toggle(
+        'active',
+        btn.dataset.lang === lang
+      );
+
+    });
+
+
+  /*
+   * Update page title
+   */
+
+  document.title =
+    lang === 'id'
+      ? 'Analisis Sentimen Mobile JKN — Data Science Project'
+      : 'Mobile JKN Sentiment Analysis — Data Science Project';
+
+
+  /*
+   * Save preference
+   */
+
+  localStorage.setItem(
+    'preferredLanguage',
+    lang
+  );
+
+}
+
+
+/*
+ * Default:
+ * Bahasa Indonesia
+ *
+ * If the visitor has previously
+ * selected English, remember it.
+ */
+
+const savedLanguage =
+  localStorage.getItem('preferredLanguage');
+
+setLanguage(
+  savedLanguage === 'en'
+    ? 'en'
+    : 'id'
+);
+
+</script>
 
 </body>
 </html>
+```
